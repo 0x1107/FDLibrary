@@ -66,7 +66,7 @@ open class RxFDNetwork {
     public struct FDRequest {
         let method: Alamofire.HTTPMethod
         let url: String
-        let parameters: [String: Any]?
+        let parameters: Encodable?
         let encoding: ParameterEncoding
         let headers: Alamofire.HTTPHeaders?
         let interceptor: RequestInterceptor?
@@ -81,13 +81,13 @@ open class RxFDNetwork {
         ///   - interceptor: 返回的“DataRequest”要使用的“RequestInterceptor”值。 默认情况下为`nil`。
         public init(method: Alamofire.HTTPMethod = .post,
              url: String,
-             parameters: [String: Any]? = nil,
+             parameters: Encodable?,
              encoding: ParameterEncoding = URLEncoding.default,
              headers: [String : String]? = nil,
              interceptor: RequestInterceptor? = nil) {
             self.method = method
             self.url = url.xsSpliceApi
-            self.parameters = parametersBlock(parameters)
+            self.parameters = parameters
             self.encoding = encoding
             if let headers = headers {
                 self.headers = HTTPHeaders(headers)
@@ -102,20 +102,20 @@ open class RxFDNetwork {
     
     /// Json 格式的数据请求
     public static func fdJSON<T: HandyJSON>(_ request: FDRequest) -> Observable<T> {
-        fdRequest(json(request.method, request.url, parameters: request.parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
+        fdRequest(json(request.method, request.url, parameters: request.parameters as? Parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
             .mapModel(type: T.self)
             .filter({ filterBlock($0) })
             .observe(on: MainScheduler.instance)
     }
     /// String 格式的数据请求
     public static func fdString(_ request: FDRequest) -> Observable<String> {
-        fdRequest(string(request.method, request.url, parameters: request.parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
+        fdRequest(string(request.method, request.url, parameters: request.parameters as? Parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
             .filter({ filterBlock($0) })
             .observe(on: MainScheduler.instance)
     }
     /// Data 格式的数据请求
     public static func fdData(_ request: FDRequest) -> Observable<Data> {
-        fdRequest(data(request.method, request.url, parameters: request.parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
+        fdRequest(data(request.method, request.url, parameters: request.parameters as? Parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
             .filter({ filterBlock($0) })
             .observe(on: MainScheduler.instance)
     }
