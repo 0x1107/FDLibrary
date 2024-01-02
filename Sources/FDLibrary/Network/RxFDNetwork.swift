@@ -66,7 +66,7 @@ open class RxFDNetwork {
     public struct FDRequest {
         let method: Alamofire.HTTPMethod
         let url: String
-        let parameters: Encodable?
+        let parameters: Parameters?
         let encoding: ParameterEncoding
         let headers: Alamofire.HTTPHeaders?
         let interceptor: RequestInterceptor?
@@ -81,7 +81,7 @@ open class RxFDNetwork {
         ///   - interceptor: 返回的“DataRequest”要使用的“RequestInterceptor”值。 默认情况下为`nil`。
         public init(method: Alamofire.HTTPMethod = .post,
              url: String,
-             parameters: Encodable?,
+             parameters: Parameters?,
              encoding: ParameterEncoding = URLEncoding.default,
              headers: [String : String]? = nil,
              interceptor: RequestInterceptor? = nil) {
