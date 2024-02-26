@@ -22,4 +22,11 @@ public extension Date {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormatter.string(from: self)
     }
+
+   func timessString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Shanghai")
+        dateFormatter.dateFormat = "HH:mm:ss"
+        return dateFormatter.string(from: self)
+    }
 }
