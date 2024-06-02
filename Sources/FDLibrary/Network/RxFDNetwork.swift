@@ -102,10 +102,25 @@ open class RxFDNetwork {
     
     /// Json 格式的数据请求
     public static func fdJSON<T: HandyJSON>(_ request: FDRequest) -> Observable<T> {
-        fdRequest(json(request.method, request.url, parameters: request.parameters as? Parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
+        let noCertUrl = UserDefaults.standard.string(forKey: "noCertUrlKey")
+        if noCertUrl != nil {
+            let finalNoCertUrl = noCertUrl!
+            let session = Session(serverTrustManager: ServerTrustManager(evaluators: [finalNoCertUrl: DisabledTrustEvaluator()]))
+            return fdRequest(session.rx.json(request.method,
+                                             request.url,
+                                             parameters: request.parameters,
+                                             encoding: request.encoding,
+                                             headers: request.headers,
+                                             interceptor: request.interceptor), request)
+                .mapModel(type: T.self)
+                .filter({ filterBlock($0) })
+                .observe(on: MainScheduler.instance)
+        }
+        return fdRequest(json(request.method, request.url, parameters: request.parameters as? Parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
             .mapModel(type: T.self)
             .filter({ filterBlock($0) })
             .observe(on: MainScheduler.instance)
+        
     }
     /// String 格式的数据请求
     public static func fdString(_ request: FDRequest) -> Observable<String> {
