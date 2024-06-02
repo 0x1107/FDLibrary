@@ -111,9 +111,7 @@ open class RxFDNetwork {
                                              parameters: request.parameters,
                                              encoding: request.encoding,
                                              headers: request.headers,
-                                             interceptor: request.interceptor).subscribe(onNext: { temp in
-                print(session)
-            }) as! Observable<T>, request)
+                                             interceptor: request.interceptor), request)
                 .mapModel(type: T.self)
                 .filter({ filterBlock($0) })
                 .observe(on: MainScheduler.instance)
