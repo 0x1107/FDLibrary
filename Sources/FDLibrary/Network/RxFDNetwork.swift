@@ -115,6 +115,7 @@ open class RxFDNetwork {
                 .mapModel(type: T.self)
                 .filter({ filterBlock($0) })
                 .observe(on: MainScheduler.instance)
+                .share(replay: 1, scope: .whileConnected)
         }
         return fdRequest(json(request.method, request.url, parameters: request.parameters as? Parameters, encoding: request.encoding, headers: request.headers, interceptor: request.interceptor), request)
             .mapModel(type: T.self)
