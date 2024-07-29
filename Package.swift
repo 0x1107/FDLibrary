@@ -17,7 +17,6 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1")),
         .package(url: "https://github.com/SDWebImage/SDWebImage.git", .upToNextMajor(from: "5.12.0")),
-        .package(url: "https://github.com/alibaba/HandyJSON.git", .upToNextMajor(from: "5.0.2")),
         .package(url: "https://github.com/malcommac/SwiftDate.git", .upToNextMajor(from: "6.3.1")),
         .package(name: "Toast", url: "https://github.com/scalessec/Toast-Swift.git", .upToNextMajor(from: "5.0.1")),
         .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.4.4")),
@@ -37,7 +36,6 @@ let package = Package(
             dependencies: [
                 .product(name: "SnapKit", package: "SnapKit"),
                 .product(name: "SDWebImage", package: "SDWebImage"),
-                .product(name: "HandyJSON", package: "HandyJSON"),
                 .product(name: "SwiftDate", package: "SwiftDate"),
                 .product(name: "Toast", package: "Toast"),
                 .product(name: "Alamofire", package: "Alamofire"),
